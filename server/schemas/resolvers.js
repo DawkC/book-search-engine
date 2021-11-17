@@ -10,19 +10,14 @@ const resolvers = {
                 const userData = await User.findOne({ _id: context.user._id })
                     .select('-__v -password')
 
+                    .populate("savedBooks")
+
                 return userData
             }
 
             throw new AuthenticationError('Not logged in')
         },
-        user: async (parent, { username }) => {
-            return User.findOne({ username })
-                .select('-__v -password')
-        },
-        users: async () => {
-            return User.find()
-                .select('-__v -password')
-        }
+       
     },
     Mutation: {
         login: async (parent, { email, password }) => {
